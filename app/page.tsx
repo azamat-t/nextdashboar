@@ -1,11 +1,26 @@
+'use client';
+
 import styles from '@/app/ui/home.module.css';
 import AcmeLogo from '@/app/ui/acme-logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import OneSignal from 'react-onesignal';
 
 export default function Page() {
+  const [initialized, setInitialized] = useState(false);
+  useEffect(() => {
+    OneSignal.init({ appId: '44173cfe-cf60-45a4-9354-e8933be619b1' }).then(
+      () => {
+        setInitialized(true);
+        OneSignal.Slidedown.promptPush();
+        // do other stuff
+      },
+    );
+  }, []); // <-- run this effect once on mount
+
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
